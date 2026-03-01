@@ -1,0 +1,33 @@
+[project]
+name = "dataagent-benchmark"
+version = "0.1.0"
+description = "Standalone benchmark interface for DataAgent-style data curation tasks"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "datasets>=3.0.0",
+  "numpy>=1.26.4",
+  "gymnasium>=1.0.0",
+  "pyyaml>=6.0",
+  "typer>=0.15",
+  "Pillow>=10.0",
+  "structlog>=24.0",
+  "rich>=13.0",
+
+  # tool schema wrapper
+  "autogen-core>=0.4",
+
+  # some tools use litellm/openai (optional tasks might include them)
+  "litellm>=1.0",
+  "openai>=1.0.0",
+]
+
+[project.scripts]
+dataagent-bench = "dataagent_benchmark.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.10.0,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+package = true
