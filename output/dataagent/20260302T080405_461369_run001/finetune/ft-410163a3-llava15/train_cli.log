@@ -1,0 +1,25 @@
+Finetune failed
+Traceback (most recent call last):
+  File "/data/home/hanze/bench/packages/train/src/curation_train/runner.py", line 138, in run_finetune
+    raise RuntimeError(
+RuntimeError: deepspeed exited with code 1:
+e-packages/torch/nn/modules/module.py", line 1343, in to
+[rank0]:     return self._apply(convert)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/data/home/hanze/bench/packages/train/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 903, in _apply
+[rank0]:     module._apply(fn)
+[rank0]:   File "/data/home/hanze/bench/packages/train/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 903, in _apply
+[rank0]:     module._apply(fn)
+[rank0]:   File "/data/home/hanze/bench/packages/train/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 903, in _apply
+[rank0]:     module._apply(fn)
+[rank0]:   [Previous line repeated 6 more times]
+[rank0]:   File "/data/home/hanze/bench/packages/train/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+[rank0]:     param_applied = fn(param)
+[rank0]:                     ^^^^^^^^^
+[rank0]:   File "/data/home/hanze/bench/packages/train/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1329, in convert
+[rank0]:     return t.to(
+[rank0]:            ^^^^^
+[rank0]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 MiB. GPU 0 has a total capacity of 79.10 GiB of which 6.31 MiB is free. Process 3507065 has 77.67 GiB memory in use. Including non-PyTorch memory, this process has 1.40 GiB memory in use. Of the allocated memory 970.67 MiB is allocated by PyTorch, and 15.33 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[rank0]:[W302 03:16:08.371722942 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+
+{"status": "failed", "metrics": {}, "error": "deepspeed exited with code 1:\ne-packages/torch/nn/modules/module.py\", line 1343, in to\n[rank0]:     return self._apply(convert)\n[rank0]:            ^^^^^^^^^^^^^^^^^^^^\n[rank0]:   File \"/data/home/hanze/bench/packages/train/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 903, in _apply\n[rank0]:     module._apply(fn)\n[rank0]:   File \"/data/home/hanze/bench/packages/train/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 903, in _apply\n[rank0]:     module._apply(fn)\n[rank0]:   File \"/data/home/hanze/bench/packages/train/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 903, in _apply\n[rank0]:     module._apply(fn)\n[rank0]:   [Previous line repeated 6 more times]\n[rank0]:   File \"/data/home/hanze/bench/packages/train/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 930, in _apply\n[rank0]:     param_applied = fn(param)\n[rank0]:                     ^^^^^^^^^\n[rank0]:   File \"/data/home/hanze/bench/packages/train/.venv/lib/python3.11/site-packages/torch/nn/modules/module.py\", line 1329, in convert\n[rank0]:     return t.to(\n[rank0]:            ^^^^^\n[rank0]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 MiB. GPU 0 has a total capacity of 79.10 GiB of which 6.31 MiB is free. Process 3507065 has 77.67 GiB memory in use. Including non-PyTorch memory, this process has 1.40 GiB memory in use. Of the allocated memory 970.67 MiB is allocated by PyTorch, and 15.33 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)\n[rank0]:[W302 03:16:08.371722942 ProcessGroupNCCL.cpp:1496] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())\n"}

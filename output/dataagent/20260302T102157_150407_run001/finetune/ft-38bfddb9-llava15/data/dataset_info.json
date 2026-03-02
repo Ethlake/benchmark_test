@@ -1,0 +1,75 @@
+{
+  "citation": "",
+  "description": "",
+  "features": {
+    "images": {
+      "feature": {
+        "_type": "Image"
+      },
+      "_type": "List"
+    },
+    "texts": {
+      "feature": {
+        "user": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "assistant": {
+          "dtype": "string",
+          "_type": "Value"
+        }
+      },
+      "_type": "List"
+    },
+    "source": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "relevance_ratings": {
+      "feature": {
+        "dtype": "int64",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "relevance_min": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "formatting_ratings": {
+      "feature": {
+        "dtype": "int64",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "formatting_min": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "visual_dependency_ratings": {
+      "feature": {
+        "dtype": "int64",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "visual_dependency_min": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "image_correspondence_ratings": {
+      "feature": {
+        "dtype": "int64",
+        "_type": "Value"
+      },
+      "_type": "List"
+    },
+    "image_correspondence_min": {
+      "dtype": "int64",
+      "_type": "Value"
+    }
+  },
+  "homepage": "",
+  "license": ""
+}

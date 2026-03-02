@@ -1,0 +1,1 @@
+{"method": "llava", "data_path": "/data/home/hanze/bench/output/dataagent/20260302T080405_461369_run001/finetune/ft-410163a3-llava15/data", "output_dir": "/data/home/hanze/bench/output/dataagent/20260302T080405_461369_run001/finetune/ft-410163a3-llava15", "model_name_or_path": "llava-hf/llava-1.5-7b-hf", "deepspeed_config": "zero2", "max_steps": 5}

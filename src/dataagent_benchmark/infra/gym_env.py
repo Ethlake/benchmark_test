@@ -61,12 +61,26 @@ _PER_DATASET: dict[str, Callable[..., Any]] = {
 
 
 def _find_repo_root() -> Path:
-    """Walk up from this file looking for the directory that contains ``packages/``."""
+    # 1) 最优先：显式指定
+    env_root = os.environ.get("DATAAGENT_BENCH_ROOT")
+    if env_root:
+        p = Path(env_root).expanduser().resolve()
+        if (p / "packages").is_dir():
+            return p
+
+    # 2) 其次：从当前工作目录往上找（你从 repo 根目录跑 dataagent-bench 时就能命中）
+    cwd = Path.cwd().resolve()
+    for ancestor in (cwd, *cwd.parents):
+        if (ancestor / "packages").is_dir():
+            return ancestor
+
+    # 3) 最后：保留旧逻辑（从源码文件位置找）
     current = Path(__file__).resolve().parent
     for ancestor in (current, *current.parents):
         if (ancestor / "packages").is_dir():
             return ancestor
-    return Path(__file__).resolve().parents[4]
+
+    return cwd
 
 
 def _default_output_base() -> Path:

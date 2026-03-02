@@ -425,6 +425,7 @@ def submit_eval(
             )
 
         metrics = _collect_metrics(results_dir, model_name, benchmarks)
+        accuracy = float(sum(metrics.values()) / len(metrics)) if metrics else 0.0
         if mode == "all" and not metrics:
             error_tail = (proc.stderr or proc.stdout or "")[-1200:]
             discovered_files = _list_result_files(results_dir)
@@ -446,6 +447,7 @@ def submit_eval(
                 "model_family": resolved_family,
                 "status": "completed",
                 "results": metrics,
+                "accuracy": accuracy,
             }
         )
         return StepResult(

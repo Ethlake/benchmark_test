@@ -12,7 +12,7 @@ import subprocess
 import uuid
 from pathlib import Path
 from typing import Annotated, Any
-
+import os
 import structlog
 
 from dataagent_benchmark.domain.artifacts import ArtifactRef, StepResult
@@ -37,6 +37,7 @@ def submit_finetune(
     (e.g. ``max_steps``) are passed through when provided.
     """
     training_cfg = training_config or {}
+    gpu_id = int(training_cfg.get("gpu_id", 0))
     method = str(training_cfg.get("method", "qwen")).lower().strip()
     if method in {"qwen2.5", "qwen25"}:
         method = "qwen"
@@ -104,12 +105,24 @@ def submit_finetune(
     train_project = str(_find_repo_root() / "packages" / "train")
 
     try:
+        gpu_spec = training_cfg.get("gpu_ids", training_cfg.get("gpu_id", 0))
+
+        if isinstance(gpu_spec, list):
+            cuda_visible = ",".join(str(x) for x in gpu_spec)
+        else:
+            # 允许 gpu_id: 3 或 gpu_id: "0,1,2,3"
+            cuda_visible = str(gpu_spec).strip()
+
+        env = os.environ.copy()
+        env["CUDA_VISIBLE_DEVICES"] = cuda_visible
+
         proc = subprocess.run(
             ["uv", "run", "--project", train_project, "curation-train", str(config_path)],
             capture_output=True,
             text=True,
             timeout=7200,
             cwd=work_dir,
+            env=env,
         )
 
         if proc.returncode != 0:
