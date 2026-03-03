@@ -1,30 +1,30 @@
-agent:
-  policy: random
-  prompt_style: preselection
-  generation:
-    seed: 42
-  tools:
-    - think
+benchmark:
+  run_budget: 50
+  allowed_tools:
     - profile_datasets
-    - vlm_filter
     - compute_mix_ratio
+    - vlm_filter
+    - quality_filter
     - vlm_mix
-    - save_to_disk
-
-env:
-  episodes: 1
-  max_steps: 15
+    - submit_finetune
+    - submit_eval
+  constraints:
+    - "Mixing ratios should sum to 1.0 or 100.0."
 
 task:
   task_description: >
-    Curate visual instruction-tuning data for LLaVA-1.5-7B
-    to maximize performance on MMVet.
-    (Random baseline — no LLM, random tool selection.)
-
+    Curate visual instruction-tuning data for LLaVA-1.5-7B and evaluate the result.
   target_model: "llava-hf/llava-1.5-7b-hf"
   sample_budget: 50
   profiling_sample_n: 10
   output_path: test_random_mix.parquet
+
+  training_config:
+    method: llava
+    max_steps: 10
+
+  eval:
+    benchmarks: ["MMMU_DEV_VAL"]
 
   datasets:
     - name: vqav2
