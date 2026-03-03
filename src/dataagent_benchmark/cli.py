@@ -1,35 +1,33 @@
 from __future__ import annotations
 
-import asyncio
+import json
 from pathlib import Path
+
 import typer
 
-from dataagent_benchmark.benchmark.api import BenchmarkAPI
-from dataagent_benchmark.benchmark.runner import run_external_agent
-from dataagent_benchmark.benchmark.spec_cli import bench_spec as _bench_spec
+from dataagent_benchmark.benchmark.recipe_env import DataCurationEnv
+from dataagent_benchmark.domain.recipe import DataRecipe
 
 app = typer.Typer(add_completion=False)
 
 
+@app.command("describe")
+def describe(task: Path) -> None:
+    """Print the agent-facing task specification for one run."""
+    env = DataCurationEnv(task)
+    task_spec = env.reset()
+    print(task_spec.model_dump_json(indent=2))
+
+
 @app.command("run")
-def run(
-    task: Path,
-    agent: str = typer.Option(..., "--agent", "-a", help='External agent spec "module:Class"'),
-    render: bool = typer.Option(False, "--render/--no-render"),
-) -> None:
-    b = BenchmarkAPI(str(task), render_mode="human" if render else None)
-    summaries = asyncio.run(run_external_agent(b, agent_spec=agent))
-    for i, s in enumerate(summaries):
-        print(f"[bench episode {i}] stop={s.stop_reason} steps={s.iterations} wall={s.total_wall_s:.2f}s")
+def run(task: Path, recipe: Path) -> None:
+    """Submit one complete recipe and print the final observation."""
+    env = DataCurationEnv(task)
+    env.reset()
+    recipe_payload = json.loads(recipe.read_text(encoding="utf-8"))
+    obs = env.submit_recipe(DataRecipe.model_validate(recipe_payload))
+    print(obs.model_dump_json(indent=2))
 
 
-@app.command("spec")
-def spec(
-    task: Path,
-    out: Path | None = typer.Option(None, "--out", "-o"),
-) -> None:
-    _bench_spec(typer.Context(app), task=task, out=out)
-
-
-def main():
+def main() -> None:
     app()

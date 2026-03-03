@@ -1,13 +1,13 @@
-"""
-dataagent_benchmark: standalone benchmark interface (Phase B).
+"""dataagent_benchmark public API."""
 
-Public API:
-- BenchmarkAPI
-- CurationEnv
-- make_tools
-"""
-from dataagent_benchmark.infra.gym_env import CurationEnv
-from dataagent_benchmark.tools import make_tools
+from dataagent_benchmark.benchmark.recipe_env import DataCurationEnv
+from dataagent_benchmark.domain.recipe import DataRecipe, ModelResponse, Observation, TaskDescription, ToolCall
 
-# Phase A facade (kept)
-from dataagent_benchmark.benchmark.api import BenchmarkAPI
+__all__ = [
+    "DataCurationEnv",
+    "DataRecipe",
+    "ToolCall",
+    "TaskDescription",
+    "Observation",
+    "ModelResponse",
+]

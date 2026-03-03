@@ -36,7 +36,7 @@ class RecipeComponent(BaseModel):
     )
 
 
-class DataRecipe(BaseModel):
+class MixRecipe(BaseModel):
     """A structured data mixture recipe."""
 
     components: list[RecipeComponent] = Field(..., description="Ordered list of dataset slots.")

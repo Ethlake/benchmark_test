@@ -11,7 +11,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from dataagent_benchmark.domain.models import DataRecipe
+    from dataagent_benchmark.domain.models import MixRecipe
     from dataagent_benchmark.domain.tool_context import DatasetUpdate
 
 
@@ -51,7 +51,7 @@ class StepResult:
     # Dataset mutations for env to apply (tool declares, env executes)
     dataset_updates: dict[str, DatasetUpdate] = field(default_factory=dict)
     # Recipe for env to set as current_recipe
-    recipe: DataRecipe | None = None
+    recipe: MixRecipe | None = None
 
 
 # ---------------------------------------------------------------------------
