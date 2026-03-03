@@ -1,37 +1,34 @@
-agent:
-  tools:
+benchmark:
+  run_budget: 50
+  allowed_tools:
     - load_dataset
     - vlm_mix
     - submit_finetune
     - submit_eval
-
-env:
-  episodes: 1
-  max_steps: 8
+  constraints:
+    - "The recipe must stay within sample_budget."
+    - "Only benchmark-owned tools may be used."
 
 task:
   task_description: >
-    Smoke test: mix a tiny dataset, finetune, then eval.
-
+    Smoke test task: build a tiny mixed dataset, finetune, and evaluate.
   target_model: "llava-hf/llava-1.5-7b-hf"
   sample_budget: 50
   profiling_sample_n: 10
   output_path: smoke_mix.parquet
 
   training_config:
-    method: llava        # 或 qwen
-    gpu_ids: [0, 1, 2, 3]
+    method: llava
+    gpu_ids: [0]
     deepspeed_config: zero3
-    max_steps: 5         # smoke test 跑快点
+    max_steps: 5
 
   eval:
-    benchmarks: ["MMMU_DEV_VAL"]   # 建议先用不需要 OpenAI judge 的（你遇到 MMVet 需要 API 的报错）
+    benchmarks: ["MMMU_DEV_VAL"]
     gpu_id: 0
     max_samples: 20
     use_vllm: true
     api_nproc: 8
-    vlmeval_dir: "/home/hanze/vlmeval/3lVLMEvalKit"          # 或不写，用 VLMEVAL_DIR
-    vlmeval_python: "/home/hanze/miniconda3/envs/vlmeval/bin/python"  # 或不写，用 VLMEVAL_PYTHON
 
   datasets:
     - name: vqav2

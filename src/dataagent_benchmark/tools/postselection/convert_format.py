@@ -26,6 +26,7 @@ def convert_format(
     # --- Injected by env ---
     dataset: Annotated[Any, PerDataset("working")] = None,
     text_column: Annotated[str, PerDataset("text_column")] = "",
+    image_column: Annotated[str, PerDataset("image_column")] = "",
 ) -> StepResult | str:
     """Convert dataset rows into a unified chat instruction format.
 
@@ -40,7 +41,7 @@ def convert_format(
             {"error": f"Unknown format '{target_format}'. Available: {available_fmts}"}
         )
 
-    has_images = False
+    has_images = bool(image_column and image_column in dataset.column_names)
     user_tpl = fmt["user_template"] if has_images else fmt["user_template_no_image"]
 
     ds = dataset
