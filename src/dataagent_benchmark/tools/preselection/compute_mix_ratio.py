@@ -7,7 +7,7 @@ from typing import Annotated
 import structlog
 
 from dataagent_benchmark.domain.artifacts import ArtifactRef, StepResult
-from dataagent_benchmark.domain.models import DataRecipe, RecipeComponent
+from dataagent_benchmark.domain.models import MixRecipe, RecipeComponent
 from dataagent_benchmark.domain.tool_context import FromEnv
 
 log = structlog.get_logger()
@@ -81,7 +81,7 @@ def compute_mix_ratio(
                 )
             )
 
-        recipe = DataRecipe(
+        recipe = MixRecipe(
             components=components,
             total_samples=sum(allocation.values()),
             total_requested=total_samples,
@@ -161,7 +161,7 @@ def compute_mix_ratio(
             )
 
         formula = "weight = quality_score * sqrt(effective_size)"
-        recipe = DataRecipe(
+        recipe = MixRecipe(
             components=components,
             total_samples=sum(allocation.values()),
             total_requested=total_samples,

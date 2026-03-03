@@ -23,7 +23,7 @@ from gymnasium import spaces
 
 from dataagent_benchmark.domain.artifact_registry import ArtifactRegistry
 from dataagent_benchmark.domain.artifacts import TOOL_META, ArtifactRef, StepResult
-from dataagent_benchmark.domain.models import DataRecipe
+from dataagent_benchmark.domain.models import MixRecipe
 from dataagent_benchmark.domain.tool_context import (
     AllDatasets,
     FromArtifact,
@@ -114,9 +114,9 @@ class CurationEnv(gym.Env):
     ) -> None:
         super().__init__()
 
-        self.agent_config, loaded_env_config, self.task = load_config(task_path)
-        # Explicit env_config overrides what was loaded from YAML
-        env_config = {**loaded_env_config, **(env_config or {})}
+        loaded_runtime_config, self.task = load_config(task_path)
+        # Explicit env_config overrides values loaded from YAML
+        env_config = {**loaded_runtime_config, **(env_config or {})}
         self.max_steps = env_config.get("max_steps", 50)
         self.episodes = env_config.get("episodes", 1)
         self._env_config = env_config
@@ -136,7 +136,7 @@ class CurationEnv(gym.Env):
         self.dataset_names: list[str] = []
 
         # --- Mutable episode state ---
-        self.current_recipe: DataRecipe | None = None
+        self.current_recipe: MixRecipe | None = None
 
         # --- Env-scoped dataset store ---
         self.store: DatasetStore = DatasetStore()
